@@ -9,3 +9,6 @@
 .show-matched-items-container ul li {
   list-style-type: none;
 }
+.show-matched-items-container ul li:hover {
+  cursor: pointer;
+}
