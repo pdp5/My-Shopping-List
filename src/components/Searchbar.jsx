@@ -1,5 +1,6 @@
 import { useState } from "react";
-import CheckMarkBtn from "./CheckMarkBtn.jsx";
+import DisplayUserItems from "./DisplayUserItems.jsx";
+import SelectableUserItems from "./SelectableIUserItems.jsx";
 
 const items = [
   "milk",
@@ -21,11 +22,9 @@ const Searchbar = () => {
     setUserInput(value);
     console.log("user input: ", value);
 
-    setMatchItem(items.filter((item) => item.includes(value)));
-  }
-  function onClickHandler(item) {
-    setUserSelectedItem((previousItem) => [...previousItem, item]);
-    console.log(userSelectedItem);
+    if (value.length) {
+      setMatchItem(items.filter((item) => item.includes(value)));
+    }
   }
 
   return (
@@ -34,44 +33,25 @@ const Searchbar = () => {
         <h1>My Shopping List</h1>
         <form>
           <input
+            value={userInput}
             onChange={(e) => onChangeHandler(e.target.value)}
             placeholder="search your item"
             type="search"
           />
         </form>
       </div>
-      <div className="show-matched-items-container">
-        {matchItem.map((item, index) => (
-          <ul key={index}>
-            {" "}
-            <li onClick={() => onClickHandler(item)}>{item}</li>{" "}
-          </ul>
-        ))}
-      </div>
-      <div className="user-selected-items">
-        <p>
-          Items:{" "}
-          {userSelectedItem.map((item, index) => (
-            <ul
-              key={index}
-              style={{
-                textDecoration: checkedItem.includes(item)
-                  ? "line-through"
-                  : "none",
-                color: checkedItem.includes(item) ? "gray" : "white",
-              }}
-            >
-              {" "}
-              <CheckMarkBtn
-                checkedItem={checkedItem}
-                item={item}
-                setCheckedItem={setCheckedItem}
-              />{" "}
-              {item}{" "}
-            </ul>
-          ))}
-        </p>
-      </div>
+      <DisplayUserItems
+        matchItem={matchItem}
+        setUserSelectedItem={setUserSelectedItem}
+        userInput={userInput}
+        setUserInput={setUserInput}
+      />
+      <SelectableUserItems
+        userSelectedItem={userSelectedItem}
+        checkedItem={checkedItem}
+        setCheckedItem={setCheckedItem}
+        setUserSelectedItem={setUserSelectedItem}
+      />
       <div>checked Item: {checkedItem}</div>
     </>
   );
