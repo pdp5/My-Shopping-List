@@ -1,8 +1,11 @@
-const RemoveButton = ({ item, userSelectedItem, setUserSelectedItem }) => {
+const RemoveButton = ({ userSelectedItem, setUserSelectedItem, id }) => {
   function onClickHandler() {
-    setUserSelectedItem(
-      userSelectedItem.filter((userItem) => userItem !== item)
-    );
+    setUserSelectedItem((prev) => {
+      const newUserSelectedItem = { ...prev };
+      delete newUserSelectedItem[id];
+
+      return newUserSelectedItem;
+    });
   }
   return <button onClick={onClickHandler}>X</button>;
 };

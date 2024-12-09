@@ -1,14 +1,22 @@
 import { useState } from "react";
-const CheckMarkBtn = ({ item, setCheckedItem, checkedItem }) => {
+const CheckMarkBtn = ({ item, setCheckedItem, checkedItem, id }) => {
   function onClickHandler() {
-    checkedItem.includes(item)
-      ? setCheckedItem(() => checkedItem.filter((checked) => checked !== item))
-      : setCheckedItem((previousItem) => [...previousItem, item]);
+    setCheckedItem((prev) => {
+      const newCheckedItem = { ...prev };
+      if (id in newCheckedItem) {
+        delete newCheckedItem[id];
+      } else {
+        newCheckedItem[id] = { item };
+      }
+      return newCheckedItem;
+    });
   }
   return (
     <>
       <button
-        style={{ color: checkedItem.includes(item) ? "gray" : "white" }}
+        style={{
+          color: id in checkedItem ? "gray" : "white",
+        }}
         onClick={onClickHandler}
       >
         ✓

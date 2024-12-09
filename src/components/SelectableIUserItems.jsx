@@ -10,14 +10,12 @@ const SelectableUserItems = ({
   return (
     <div className="user-selected-items">
       Items:{" "}
-      {userSelectedItem.map((item, index) => (
+      {Object.entries(userSelectedItem).map(([id, { item }]) => (
         <ul
-          key={index}
+          key={id}
           style={{
-            textDecoration: checkedItem.includes(item)
-              ? "line-through"
-              : "none",
-            color: checkedItem.includes(item) ? "gray" : "white",
+            textDecoration: id in checkedItem ? "line-through" : "none",
+            color: id in checkedItem ? "gray" : "white",
           }}
         >
           {" "}
@@ -25,12 +23,13 @@ const SelectableUserItems = ({
             checkedItem={checkedItem}
             item={item}
             setCheckedItem={setCheckedItem}
+            id={id}
           />{" "}
           {item}
           <RemoveButton
-            item={item}
             userSelectedItem={userSelectedItem}
             setUserSelectedItem={setUserSelectedItem}
+            id={id}
           />
         </ul>
       ))}

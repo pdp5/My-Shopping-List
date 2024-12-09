@@ -1,22 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DisplayUserItems from "./DisplayUserItems.jsx";
 import SelectableUserItems from "./SelectableIUserItems.jsx";
 
-const items = [
-  "milk",
-  "oil",
-  "yogort",
-  "coconut",
-  "mistry gift",
-  "copper",
-  "milk powder",
-];
+let items = [];
 
 const Searchbar = () => {
   const [userInput, setUserInput] = useState("");
   const [matchItem, setMatchItem] = useState([]);
-  const [userSelectedItem, setUserSelectedItem] = useState([]);
-  const [checkedItem, setCheckedItem] = useState([]);
+  const [userSelectedItem, setUserSelectedItem] = useState({});
+  const [checkedItem, setCheckedItem] = useState({});
+  const [id, setId] = useState(0);
+
+  useEffect(() => {
+    async function getItems() {
+      const response = await fetch("https://api.frontendeval.com/fake/food/mi");
+      const data = await response.json();
+      items = data;
+    }
+    getItems();
+  }, []);
 
   function onChangeHandler(value) {
     setUserInput(value);
@@ -45,6 +47,8 @@ const Searchbar = () => {
         setUserSelectedItem={setUserSelectedItem}
         userInput={userInput}
         setUserInput={setUserInput}
+        id={id}
+        setId={setId}
       />
       <SelectableUserItems
         userSelectedItem={userSelectedItem}
@@ -52,7 +56,7 @@ const Searchbar = () => {
         setCheckedItem={setCheckedItem}
         setUserSelectedItem={setUserSelectedItem}
       />
-      <div>checked Item: {checkedItem}</div>
+      {/* <div>checked Item: {checkedItem}</div> */}
     </>
   );
 };

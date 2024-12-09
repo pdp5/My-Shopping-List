@@ -3,9 +3,19 @@ const DisplayUserItems = ({
   setUserSelectedItem,
   userInput,
   setUserInput,
+  id,
+  setId,
 }) => {
   function onClickHandler(item) {
-    setUserSelectedItem((previousItem) => [...previousItem, item]);
+    setId((prevId) => {
+      let newId = prevId + 1;
+      setUserSelectedItem((previousItem) => ({
+        ...previousItem,
+        [newId]: { item },
+      }));
+      return newId;
+    });
+
     setUserInput("");
     // console.log(userSelectedItem);
   }
